@@ -1,0 +1,14 @@
+# Build output
+/build/
+
+# Extracted Mailbird binaries, resources, licenses, and media
+/Mailbird*.resources
+/Mailbird*.g.resources
+/Mailbird*.xml
+/Mailbird*.wav
+/Mailbird*.htm
+
+# Editor and OS files
+*~
+*.swp
+.DS_Store
