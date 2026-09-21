@@ -12,3 +12,8 @@
 *~
 *.swp
 .DS_Store
+
+# Generated Mailbird patch backups and temporary replacement files
+*.mailbird-original
+*.tmp-*
+*.replace-*

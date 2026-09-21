@@ -130,3 +130,24 @@ You can then remove `MailbirdDnd.Managed.dll` from the Mailbird directory.
 - The current broker implements Xdnd, not a native Wayland data source.
 - Drag operations are copies only.
 
+## IPv6-disabled Wine workaround
+
+On systems booted with `ipv6.disable=1`, Mailbird's bundled Limilabs `Mail.dll`
+may fail before connecting: its default socket constructor takes the dual-mode
+IPv6 path even for IPv4 endpoints. `patch-mailbird.sh` makes only that
+constructor explicitly use `AddressFamily.InterNetwork` (IPv4). It leaves the
+kernel, DNS, TLS, OAuth data, and Mailbird database unchanged.
+
+Close Mailbird before patching. The command creates a reversible backup beside
+the assembly and verifies the result:
+
+```sh
+./patch-mailbird.sh apply \
+  "$WINEPREFIX/drive_c/Program Files/Mailbird/Mail.dll"
+./patch-mailbird.sh verify \
+  "$WINEPREFIX/drive_c/Program Files/Mailbird/Mail.dll"
+```
+
+Restore the original with `./patch-mailbird.sh restore /path/to/Mail.dll`.
+Mailbird binaries are not distributed. The patch was tested with Mailbird
+2.9.111.0 under Wine 9.0 on a kernel booted with `ipv6.disable=1`.
